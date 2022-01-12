@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="style.css" rel="stylesheet">
+    <!-- <link href="interact.css" rel="stylesheet"> -->
+
+</head>
+
+<body>
+
+    <!-- <div class="sliders">
+        <div class="slider"></div>
+        <div class="slider"></div>
+        <div class="slider"></div>
+      </div>
+    <script type="text/javascript" src="interact.min.js"></script>
+    <script type="text/javascript" src="custom.js"></script> -->
+    <button style="font-size:30px;" id="bntCreateDiv">+</button>
+
+    <div id="container">
+        <div id="pane1" class="pane">
+            <div id="title" class="title">Resize, Drag or Snap Me!</div>
+        </div>
+        <div id="ghostpane1" class="ghostpane"></div>
+
+
+        <!-- <div id="pane2" class="pane">
+            <div id="title" class="title">Resize, Drag or Snap Me!</div>
+        </div>
+        <div id="ghostpane2" class="ghostpane"></div> -->
+    </div>
+
+
+    <script type="text/javascript" src="main.js"></script>
+    <script type="text/javascript">
+        window.onload = function () {
+            console.log('yüklendi')
+            DragResizeSnapElement('pane1', 'ghostpane1');
+            //DragResizeSnapElement('pane2', 'ghostpane2');
+        }
+    </script>
+</body>
+
+</html>
