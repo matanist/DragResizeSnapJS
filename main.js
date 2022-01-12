@@ -106,9 +106,9 @@ function DragResizeSnapElement(paneId,ghostpaneId){
     b = pane.getBoundingClientRect();
   
     //console.log(b);
-    x = e.clientX - b.left;
+    x = e.clientX - b.left; //Mouse pozisyonundan (x pozisyonu), elementin sol üst köşesinin başlangıca olan uzaklığı. 
     y = e.clientY - b.top;
-  
+  //clientX, clientY mouse position relative to the viewport (Bulunduğu view'in koordinatlarını verir.)
     onTopEdge = y < MARGINS;
     onLeftEdge = x < MARGINS;
     onRightEdge = x >= b.width - MARGINS;
@@ -168,6 +168,7 @@ function DragResizeSnapElement(paneId,ghostpaneId){
     if (clicked && clicked.isMoving) {
       var innWidth = window.innerWidth;
       //console.log('innderWidth',innWidth);
+      //console.log(FULLSCREEN_MARGINS)
       if (b.top < FULLSCREEN_MARGINS || b.left < FULLSCREEN_MARGINS || b.right > innWidth - FULLSCREEN_MARGINS || b.bottom > window.innerHeight - FULLSCREEN_MARGINS) {
         // hintFull();
         setBounds(ghostpane, 0, 0, innWidth, window.innerHeight);
