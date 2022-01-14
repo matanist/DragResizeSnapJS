@@ -103,10 +103,12 @@ function DragResizeSnapElement(paneId,ghostpaneId){
   }
   
   function calc(e) {
+    //getBoundingClientRect() kendisine verilen elementin koordinatlarını döndürür. 
     b = pane.getBoundingClientRect();
   
     //console.log(b);
     x = e.clientX - b.left; //Mouse pozisyonundan (x pozisyonu), elementin sol üst köşesinin başlangıca olan uzaklığı. 
+   
     y = e.clientY - b.top;
   //clientX, clientY mouse position relative to the viewport (Bulunduğu view'in koordinatlarını verir.)
     onTopEdge = y < MARGINS;
@@ -164,13 +166,19 @@ function DragResizeSnapElement(paneId,ghostpaneId){
   
       return;
     }
-  
+    //ghostpane ayarlanıyor. 
     if (clicked && clicked.isMoving) {
       var innWidth = window.innerWidth;
       //console.log('innderWidth',innWidth);
       //console.log(FULLSCREEN_MARGINS)
+      //Eğer element başka bir elementin üzerine sürükleniyorsa o elementin içinde ghostpane görünmeli. setBounds'un 2. ve 3. parametrelerini, 4. ve 5. parametrelerini bunlara göre ayarla. Üzerine gelinen elementin bilgilerini almak gerekir. 
+        //Diğer elementlerin koordinatları nasıl alınır ? 
+        // Diğer elementlerin koordinatları içinde olduğu nasıl anlaşılır. 
+      console.log(calcIsInside(b));
       if (b.top < FULLSCREEN_MARGINS || b.left < FULLSCREEN_MARGINS || b.right > innWidth - FULLSCREEN_MARGINS || b.bottom > window.innerHeight - FULLSCREEN_MARGINS) {
         // hintFull();
+        
+        
         setBounds(ghostpane, 0, 0, innWidth, window.innerHeight);
         ghostpane.style.opacity = 0.2;
       } else if (b.top < MARGINS) {
@@ -202,7 +210,7 @@ function DragResizeSnapElement(paneId,ghostpaneId){
         );
         return;
       }
-      console.log(e.clientY-clicked.y, e.clientX-clicked.x)
+      // console.log(e.clientY-clicked.y, e.clientX-clicked.x)
       // moving
       pane.style.top = (e.clientY - clicked.y) + 'px';
       pane.style.left = (e.clientX - clicked.x) + 'px';
@@ -240,9 +248,10 @@ function DragResizeSnapElement(paneId,ghostpaneId){
         width: b.width,
         height: b.height
       };
-  
+      //pane ayarlanıyor
       if (b.top < FULLSCREEN_MARGINS || b.left < FULLSCREEN_MARGINS || b.right > window.innerWidth - FULLSCREEN_MARGINS || b.bottom > window.innerHeight - FULLSCREEN_MARGINS) {
         // hintFull();
+        //sınırlar belirlenmesi gerekiyor. Eğer başka bir div'in üzerine gelinirse üzerinde olduğu div'in boyutlarını almalı.
         setBounds(pane, 0, 0, window.innerWidth, window.innerHeight);
         preSnapped = snapped;
       } else if (b.top < MARGINS) {
@@ -272,6 +281,39 @@ function DragResizeSnapElement(paneId,ghostpaneId){
     clicked = null;
   
   }
+  function calcIsInside(movingInfo){
+    //console.log(movingInfo);
+    //Begin Left-Top and go clockwise
+    var movingPosition = [movingInfo.x, movingInfo.y]; //17,25
+    // var coords = [[120,120],[160,120],[160,180],[120,180]];
+    for (let index = 0; index < coords.length; index++) {
+      const coord = coords[index];
+      if(movingPosition[0]>coord[0][0] && movingPosition[0]<coord[1][0] && movingPosition[1]>coord[1][1] && movingPosition[1]<coord[2][1]){
+        return {'isInside':true,'coord':coord};
+      }
+      return {'isInside':false,'coord':coord};
+    }
+    
+  }
+}
+var coords =[[[120,120],[160,120],[160,180],[120,180]]];
+function createNewElementWithCoord(coords){
+  //[[20,60],[30,60],[30,20],[20,20]];
+  var newElement = document.createElement("div");
+  newElement.style.position = "absolute";
+  newElement.style.width = coords[1][0]-coords[0][0]+"px";
+  newElement.style.height = coords[2][1]-coords[1][1]+"px";
+
+  newElement.style.top = coords[0][1]+"px";
+  newElement.style.left = coords[0][0]+"px";
+  newElement.style.border = "1px solid red";
+  newElement.style.zIndex = "9999";
   
+  var container = document.getElementById("container");
+  container.appendChild(newElement);
+
+}
+function createNew(){
+  createNewElementWithCoord([[120,120],[160,120],[160,180],[120,180]]);
 }
 
