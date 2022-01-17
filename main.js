@@ -30,6 +30,7 @@ function DragResizeSnapElement(paneId, ghostpaneId) {
     element.style.top = y + 'px';
     element.style.width = w + 'px';
     element.style.height = h + 'px';
+    //element.classList.add("col-3");
     //console.log(element.style.x, element.style.y, element.style.width, element.style.height);
   }
 
